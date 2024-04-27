@@ -1,43 +1,55 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			people: [],
+			planets: [],
+			vehicles: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			getPeople: async() => {
+				try {
+					const result = await fetch ("https://swapi.py4e.com/api/people/")
+					if (!result.ok) {
+						throw new Error(error)
+					}
+					const data = await result.json()
+					console.log("people received:", data)
+					const store = useStore()
+					setStore({...store, people: [store.people, data]})
+				} catch(error){
+					console.log("erorr while receiving people:", error)
+				}
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			getPlanets: async() => {
+				try {
+					const result = await fetch ("https://swapi.py4e.com/api/planets/")
+					if (!result.ok) {
+						throw new Error(error)
+					}
+					const data = await result.json()
+					console.log("planets received:", data)
+					const store = useStore()
+					setStore({...store, people: [store.people, data]})
+				} catch(error){
+					console.log("erorr while receiving planets:", error)
+				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
+			getVehicles: async() => {
+				try {
+					const result = await fetch ("https://swapi.py4e.com/api/vehicles/")
+					if (!result.ok) {
+						throw new Error(error)
+					}
+					const data = await result.json()
+					console.log("vehicles received:", data)
+					const store = useStore()
+					setStore({...store, people: [store.people, data]})
+				} catch(error){
+					console.log("erorr while receiving vehicles:", error)
+				}
+			},
 		}
 	};
 };
